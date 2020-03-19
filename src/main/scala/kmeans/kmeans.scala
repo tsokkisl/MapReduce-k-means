@@ -63,7 +63,7 @@ object kmeans {
     /* Calculate new centroids */
     for (i <- 0 to it - 1) {
       val rdd1 = rawData.map(x => (clusterize(centroids, x.split(",")(0).toDouble, x.split(",")(1).toDouble), ((x.split(",")(0).toDouble, x.split(",")(1).toDouble), 1)))
-      val rdd2 = rdd1.reduceByKey((x, y) =>((x._1._1 + y._1._1, x._1._2 + y._1._2), x._2 + y._2))
+      val rdd2 = rdd1.reduceByKey((x, y) => ((x._1._1 + y._1._1, x._1._2 + y._1._2), x._2 + y._2))
       val rdd3 = rdd2.mapValues(x => ((x._1._1 / x._2, x._1._2 / x._2))).sortByKey()
       centroids = rdd3.collect().to[ListBuffer]
     }
